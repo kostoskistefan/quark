@@ -1,20 +1,24 @@
+#include "taskbar.h"
 #include <SDL2/SDL.h>
-#include "quark_window.h"
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_touch.h>
 
 int main(int argc, char *argv[])
 {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) 
     {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't initialize SDL: %s", SDL_GetError());
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to initialize SDL: %s", SDL_GetError());
         return EXIT_FAILURE;
     }
 
-    QuarkWindow quarkWindow;
+    Taskbar taskbar;
 
     bool keepRunning = true;
 
     while(keepRunning)
     {
+        taskbar.update();
+
         SDL_Event event;
 
         while(SDL_PollEvent(&event) > 0)
@@ -27,7 +31,7 @@ int main(int argc, char *argv[])
             }
         }
 
-        quarkWindow.render();
+        taskbar.render();
     }
 
     SDL_Quit();

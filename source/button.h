@@ -2,40 +2,42 @@
 #define BUTTON_H
 
 #include <string>
+#include <functional>
 #include <SDL2/SDL.h>
+#include "mouse.h"
+#include "button_state.h"
 
 class Button
 {
     public:
-        Button(SDL_Renderer *renderer, int size, std::string iconPath, int padding = 6);
+        Button(SDL_Renderer *renderer, int width, int height, int padding, std::string iconPath);
         ~Button();
 
-        void set_size(int size);
-        void set_padding(int padding);
-        void set_horizontal_offset(int offset);
-        void set_background_color(int color);
-        void set_icon_path(std::string iconPath);
+        void move(int x, int y);
 
-        int get_size();
-        int get_padding();
-        int get_horizontal_offset();
-        int get_background_color();
-        std::string get_icon_path();
+        ButtonState::State get_state();
 
+        void set_state(ButtonState::State state);
+        void set_callback(std::function<bool()> callback);
+
+        void update(Mouse *mouse);
         void render();
 
     private:
-        int size;
-        int padding;
-        int horizontalOffset;
-        int backgroundColor;
-        std::string iconPath;
+        SDL_Renderer * const renderer;
+        SDL_Rect globalPosition;
+        SDL_Rect relativePosition;
+        const int padding;
+        const std::string iconPath;
+        ButtonState buttonState;
         SDL_Texture *texture;
+        bool callbackIsHandled;
 
-        SDL_Rect sizePosition;
-        SDL_Renderer *renderer;
+        std::function<bool()> callback;
 
-        void update_texture_from_icon_path();
+        void on_leave();
+        void on_hover();
+        void on_click();
 };
 
 #endif // BUTTON_H

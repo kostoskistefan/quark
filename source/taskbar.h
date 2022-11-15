@@ -2,30 +2,35 @@
 #define TASKBAR_H
 
 #include <vector>
-#include "button.h"
 #include <SDL2/SDL.h>
+#include "button.h"
 
-class Taskbar 
+class Taskbar
 {
     public:
-        Taskbar(SDL_Renderer *renderer, int offset, int height = 30, int iconSpacing = 5);
+        Taskbar(int height = 30, 
+                int padding = 10, 
+                int buttonWidth = 36, 
+                int buttonSpacing = 3);
+        ~Taskbar();
 
-        void set_height(int height);
-        void set_offset(int offset);
-        void set_icon_spacing(int spacing);
+        void on_leave();
 
-        int get_height();
-        int get_offset();
-        int get_icon_spacing();
-
+        void update();
         void render();
 
     private:
-        int height;
-        int offset;
-        int iconSpacing;
+        Mouse mouse;
+
+        SDL_Window *window;
         SDL_Renderer *renderer;
-        std::vector<Button*> buttons;
+
+        const int height;
+        const int padding;
+        const int buttonWidth;
+        const int buttonSpacing;
+
+        std::vector<Button *> buttons;
 };
 
 #endif // TASKBAR_H
