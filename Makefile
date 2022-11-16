@@ -8,8 +8,8 @@ OBJECT_FILES := $(patsubst $(SOURCE_DIR)/%.cc,$(OBJECT_DIR)/%.o,$(SOURCE_FILES))
 
 CC := g++
 
-COMPILER_FLAGS := -Wall -D X11_SESSION
-LINKER_FLAGS := -lSDL2_image -lSDL2
+COMPILER_FLAGS := -Wall -D X11_SESSION -g
+LINKER_FLAGS := -lSDL2_image -lSDL2 -lxcb -lxcb-ewmh
 
 all: $(OBJECT_FILES) 
 	$(CC) $(OBJECT_FILES) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(TARGET)

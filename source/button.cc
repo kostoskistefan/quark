@@ -42,6 +42,9 @@ void Button::move(int x, int y)
 {
     this->relativePosition.x = x;
     this->relativePosition.y = y;
+
+    this->globalPosition.x += x;
+    this->globalPosition.y += y;
 }
 
 ButtonState::State Button::get_state()
